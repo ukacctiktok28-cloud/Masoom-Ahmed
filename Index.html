@@ -1,0 +1,485 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MASOOM AHMED | Digital Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+ --bg:#080817;
+ --panel:#141329;
+ --purple:#a56aff;
+ --cyan:#00eaff;
+ --text:#f7f4ff;
+ --muted:#aaa7c4;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+ background:
+ radial-gradient(circle at 15% 10%,#32135a 0,transparent 35%),
+ radial-gradient(circle at 90% 80%,#063c4a 0,transparent 35%),
+ var(--bg);
+ color:var(--text);
+ font-family:Poppins,sans-serif;
+ min-height:100vh;
+}
+body:before{
+ content:"";position:fixed;inset:0;pointer-events:none;
+ background-image:linear-gradient(#ffffff09 1px,transparent 1px),
+ linear-gradient(90deg,#ffffff09 1px,transparent 1px);
+ background-size:45px 45px;z-index:-1;
+}
+button,a{font-family:inherit}
+a{text-decoration:none;color:inherit}
+header{
+ position:sticky;top:0;z-index:20;
+ display:flex;justify-content:space-between;align-items:center;
+ padding:18px 6%;background:#09091be8;
+ backdrop-filter:blur(18px);
+ border-bottom:1px solid #ffffff18;
+}
+.brand{font:900 18px Orbitron;color:white}
+.brand span{color:var(--cyan)}
+nav{display:flex;gap:20px;align-items:center}
+nav a{font-size:12px;color:#ccc5e8;transition:.3s}
+nav a:hover{color:var(--cyan)}
+.container{width:min(1100px,90%);margin:auto}
+.hero{
+ min-height:470px;display:grid;place-items:center;
+ text-align:center;padding:80px 15px;
+}
+.tag{
+ display:inline-block;border:1px solid #a56aff80;
+ color:#d0b5ff;background:#a56aff15;
+ padding:8px 16px;border-radius:30px;
+ font-size:10px;letter-spacing:2px;
+}
+h1{
+ font:900 clamp(38px,8vw,76px)/1.2 Orbitron;
+ margin:22px 0;
+ background:linear-gradient(100deg,#fff,#b58aff,#00eaff);
+ -webkit-background-clip:text;color:transparent;
+ text-shadow:0 0 35px #a56aff25;
+}
+.hero p{max-width:650px;margin:auto;color:var(--muted);font-size:14px;line-height:1.9}
+.btn{
+ display:inline-block;border:0;cursor:pointer;
+ padding:13px 22px;border-radius:11px;
+ background:linear-gradient(110deg,#8245ff,#00bfe9);
+ color:white;font-weight:700;font-size:11px;
+ letter-spacing:1px;transition:.3s;
+ box-shadow:0 8px 28px #793dff38;
+}
+.btn:hover{transform:translateY(-4px);box-shadow:0 12px 35px #00d9ff44}
+.section{padding:55px 0}
+.heading{
+ text-align:center;font:700 26px Orbitron;margin-bottom:12px;
+}
+.heading span{color:var(--cyan)}
+.subheading{text-align:center;color:var(--muted);font-size:12px;margin-bottom:30px}
+.grid{
+ display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+ gap:19px;
+}
+.card{
+ background:linear-gradient(145deg,#1a1833,#0e1021);
+ border:1px solid #ffffff1c;border-radius:19px;
+ padding:23px;transition:.35s;
+ box-shadow:0 15px 35px #0005;
+}
+.card:hover{
+ transform:translateY(-7px) perspective(700px) rotateX(2deg);
+ border-color:#a56aff99;
+ box-shadow:0 18px 40px #743bff25;
+}
+.icon{font-size:31px}
+.card h3{font-size:16px;margin:12px 0 8px}
+.card p{font-size:12px;color:var(--muted);line-height:1.8;min-height:45px}
+.card .btn{margin-top:17px;width:100%;text-align:center}
+.auth{
+ width:min(420px,92%);margin:25px auto;
+ padding:27px;border-radius:20px;
+ background:linear-gradient(145deg,#1b1834,#0e1020);
+ border:1px solid #a56aff66;
+ box-shadow:0 20px 65px #0007;
+}
+.auth h2{text-align:center;font:700 21px Orbitron;margin-bottom:8px}
+.auth p{text-align:center;color:var(--muted);font-size:12px;margin-bottom:18px}
+input{
+ width:100%;padding:14px;margin:7px 0;
+ background:#09091a;border:1px solid #ffffff25;
+ border-radius:10px;color:white;outline:none;
+}
+input:focus{border-color:var(--cyan)}
+.auth button{width:100%;margin-top:10px}
+#loginMessage{text-align:center;font-size:12px;margin-top:15px}
+.contact{text-align:center}
+.contact p{color:var(--muted);font-size:13px;margin:12px}
+footer{
+ text-align:center;padding:27px;
+ border-top:1px solid #ffffff18;
+ color:#8885a5;font-size:11px;
+}
+
+/* DETAILS POPUP */
+.modal{
+ position:fixed;inset:0;z-index:50;
+ background:#03030bdc;backdrop-filter:blur(12px);
+ display:none;align-items:center;justify-content:center;
+ padding:16px;overflow-y:auto;
+}
+.modal.show{display:flex}
+.modal-box{
+ width:min(550px,100%);max-height:90vh;overflow-y:auto;
+ padding:28px;border-radius:22px;
+ background:linear-gradient(145deg,#201a3b,#0b1021);
+ border:1px solid #a56aff88;
+ box-shadow:0 20px 80px #000b,0 0 35px #874dff25;
+ animation:appear .3s ease;
+}
+@keyframes appear{
+ from{opacity:0;transform:translateY(20px) scale(.96)}
+ to{opacity:1;transform:translateY(0) scale(1)}
+}
+.modal-top{display:flex;justify-content:space-between;align-items:center}
+.close{
+ border:1px solid #ffffff30;background:#ffffff10;
+ color:white;border-radius:9px;padding:8px 12px;cursor:pointer;
+}
+.modal-icon{font-size:42px;margin:20px 0 8px}
+.modal-box h2{font:700 23px Orbitron;margin-bottom:12px}
+.modal-box p{font-size:13px;color:#c2bfd8;line-height:1.9}
+.detail-list{margin:17px 0;list-style:none}
+.detail-list li{
+ padding:10px 0;border-bottom:1px solid #ffffff13;
+ font-size:12px;color:#ddd9f0;
+}
+.detail-list li:before{content:"✦ ";color:var(--cyan)}
+.buy-actions{display:grid;gap:11px;margin-top:20px}
+.whatsapp{background:linear-gradient(100deg,#087d48,#19bd70)}
+.telegram{background:linear-gradient(100deg,#0877a9,#00b9e9)}
+.note{font-size:10px!important;color:#aaa!important;margin-top:14px}
+@media(max-width:650px){
+ header{padding:15px 4%;flex-wrap:wrap;gap:13px}
+ nav{gap:12px;flex-wrap:wrap}
+ nav a{font-size:10px}
+ .hero{min-height:400px}
+ .modal-box{padding:21px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ <a class="brand" href="#home">MASOOM <span>AHMED</span></a>
+ <nav>
+  <a href="#home">HOME</a>
+  <a href="#services">SERVICES</a>
+  <a href="#about">ABOUT</a>
+  <a href="#login">LOGIN</a>
+  <a href="#contact">CONTACT</a>
+ </nav>
+</header>
+
+<section class="hero" id="home">
+ <div>
+  <div class="tag">PREMIUM DIGITAL EXPERIENCE</div>
+  <h1>MASOOM<br>AHMED</h1>
+  <p>
+   Welcome to the official digital service portal.
+   Explore available services, view detailed information
+   and contact us directly for assistance.
+  </p>
+  <br><br>
+  <a href="#services" class="btn">EXPLORE SERVICES</a>
+ </div>
+</section>
+
+<section class="section" id="services">
+ <div class="container">
+  <h2 class="heading">OUR <span>SERVICES</span></h2>
+  <p class="subheading">Explore each service to view full details and contact options.</p>
+  <div class="grid" id="serviceGrid"></div>
+ </div>
+</section>
+
+<section class="section" id="about">
+ <div class="container">
+  <h2 class="heading">ABOUT <span>US</span></h2>
+  <p class="subheading">
+   A modern digital portal focused on service information,
+   authorized support and customer communication.
+  </p>
+  <div class="grid">
+   <div class="card">
+    <div class="icon">⚡</div>
+    <h3>Fast Communication</h3>
+    <p>Direct contact options for service inquiries and support.</p>
+   </div>
+   <div class="card">
+    <div class="icon">🔐</div>
+    <h3>Responsible Services</h3>
+    <p>Services are limited to authorized and consent-based assistance.</p>
+   </div>
+   <div class="card">
+    <div class="icon">💎</div>
+    <h3>Premium Experience</h3>
+    <p>Simple navigation with detailed service information.</p>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section class="section" id="login">
+ <div class="auth">
+  <h2>ACCESS PORTAL</h2>
+  <p>Enter one of your authorized access keys</p>
+  <input id="accessKey" placeholder="Enter access key">
+  <button class="btn" onclick="login()">UNLOCK PORTAL</button>
+  <div id="loginMessage"></div>
+ </div>
+</section>
+
+<section class="section" id="contact">
+ <div class="container contact">
+  <h2 class="heading">GET IN <span>TOUCH</span></h2>
+  <p>For service inquiries, contact us through the options below.</p>
+  <p><b>WhatsApp:</b> +923338394929</p>
+  <br>
+  <a class="btn whatsapp" target="_blank"
+   href="https://wa.me/923338394929">CONTACT THROUGH WHATSAPP</a>
+  <br><br>
+  <a class="btn telegram" target="_blank"
+   href="https://t.me/MasoomAHMADHacker">CONTACT THROUGH TG</a>
+ </div>
+</section>
+
+<footer>
+ © 2026 MASOOM AHMED | ALL RIGHTS RESERVED
+</footer>
+
+<!-- SERVICE DETAILS MODAL -->
+<div class="modal" id="serviceModal" onclick="outsideClose(event)">
+ <div class="modal-box">
+  <div class="modal-top">
+   <span class="tag">SERVICE DETAILS</span>
+   <button class="close" onclick="closeModal()">✕ CLOSE</button>
+  </div>
+  <div class="modal-icon" id="detailIcon"></div>
+  <h2 id="detailTitle"></h2>
+  <p id="detailDescription"></p>
+  <ul class="detail-list" id="detailFeatures"></ul>
+  <div class="buy-actions">
+   <a class="btn whatsapp" id="whatsappBuy" target="_blank">
+    BUY / INQUIRE THROUGH WHATSAPP
+   </a>
+   <a class="btn telegram" id="telegramBuy" target="_blank">
+    BUY / INQUIRE THROUGH TELEGRAM
+   </a>
+  </div>
+  <p class="note">
+   Contact buttons open a conversation for an inquiry. Confirm
+   availability, authorization, terms and price directly before
+   making any payment. No payment is processed on this website.
+  </p>
+ </div>
+</div>
+
+<script>
+const services=[
+{
+ icon:"📱",
+ name:"WhatsApp Account Support",
+ short:"Official account recovery and security guidance.",
+ description:"Get guidance for legitimate WhatsApp account access issues, security checks and official recovery procedures.",
+ features:[
+ "Official recovery guidance",
+ "Account security information",
+ "Help understanding login restrictions",
+ "No unauthorized account access"
+ ]
+},
+{
+ icon:"🔐",
+ name:"Account Security",
+ short:"Learn how to protect your online accounts.",
+ description:"Information and assistance for improving account security and understanding common security alerts.",
+ features:[
+ "Two-step verification guidance",
+ "Security awareness",
+ "Account protection tips",
+ "Recovery preparation"
+ ]
+},
+{
+ icon:"🌐",
+ name:"Internet Connectivity Guidance",
+ short:"Information about legitimate connectivity solutions.",
+ description:"Get information about lawful internet packages, network settings and connectivity troubleshooting.",
+ features:[
+ "Network troubleshooting guidance",
+ "Legitimate package information",
+ "Connectivity support",
+ "No unauthorized network access"
+ ]
+},
+{
+ icon:"🤖",
+ name:"Bug Bot",
+ short:"Authorized bot demonstrations and testing.",
+ description:"Learn about bot demonstrations and software testing in systems where you have permission.",
+ features:[
+ "Authorized testing demonstrations",
+ "Basic bot information",
+ "Responsible testing guidance",
+ "Permission-based usage"
+ ]
+},
+{
+ icon:"⚙️",
+ name:"MD Bot",
+ short:"Automation information and authorized bot tools.",
+ description:"Explore automation concepts and bot tools intended for permitted workflows.",
+ features:[
+ "Automation information",
+ "Bot workflow guidance",
+ "Testing in authorized environments",
+ "Responsible usage"
+ ]
+},
+{
+ icon:"👤",
+ name:"Consent-Based Number Information",
+ short:"Public and consent-based contact information guidance.",
+ description:"Learn about safe ways to verify business contact information and identify unwanted calls without accessing private personal records.",
+ features:[
+ "Public business contact information",
+ "Spam call awareness",
+ "Privacy-respecting guidance",
+ "No private owner-data extraction"
+ ]
+},
+{
+ icon:"📚",
+ name:"Digital Consultation",
+ short:"Ask questions about available digital services.",
+ description:"Contact us for information about the portal, service availability and general technical guidance.",
+ features:[
+ "Service information",
+ "General guidance",
+ "Availability inquiries",
+ "Direct support contact"
+ ]
+},
+{
+ icon:"🛡️",
+ name:"Cyber Safety Guidance",
+ short:"Learn safe and responsible online practices.",
+ description:"Get general guidance about online safety, privacy, account protection and responsible technology use.",
+ features:[
+ "Online safety information",
+ "Privacy awareness",
+ "Account protection",
+ "Responsible digital practices"
+ ]
+}
+];
+
+const grid=document.getElementById("serviceGrid");
+
+services.forEach((s,i)=>{
+ const card=document.createElement("div");
+ card.className="card";
+ card.innerHTML=`
+  <div class="icon">${s.icon}</div>
+  <h3>${s.name}</h3>
+  <p>${s.short}</p>
+  <button class="btn" onclick="openService(${i})">VIEW DETAILS →</button>
+ `;
+ grid.appendChild(card);
+});
+
+function openService(i){
+ const s=services[i];
+ document.getElementById("detailIcon").textContent=s.icon;
+ document.getElementById("detailTitle").textContent=s.name;
+ document.getElementById("detailDescription").textContent=s.description;
+
+ const list=document.getElementById("detailFeatures");
+ list.innerHTML="";
+ s.features.forEach(feature=>{
+  const li=document.createElement("li");
+  li.textContent=feature;
+  list.appendChild(li);
+ });
+
+ const message="Hello Masoom Ahmed! I want to inquire about: "+s.name;
+ document.getElementById("whatsappBuy").href=
+  "https://wa.me/923338394929?text="+encodeURIComponent(message);
+
+ document.getElementById("telegramBuy").href=
+  "https://t.me/MasoomAHMADHacker";
+
+ document.getElementById("serviceModal").classList.add("show");
+ document.body.style.overflow="hidden";
+}
+
+function closeModal(){
+ document.getElementById("serviceModal").classList.remove("show");
+ document.body.style.overflow="";
+}
+function outsideClose(e){
+ if(e.target.id==="serviceModal")closeModal();
+}
+
+/* 100 ACCESS KEYS */
+const keys=[
+"MA-1001-XQ","MA-1002-KP","MA-1003-RT","MA-1004-NV",
+"MA-1005-ZL","MA-1006-BD","MA-1007-WM","MA-1008-JF",
+"MA-1009-CH","MA-1010-GS","MA-1011-PA","MA-1012-YK",
+"MA-1013-UE","MA-1014-OD","MA-1015-LR","MA-1016-XB",
+"MA-1017-QM","MA-1018-VC","MA-1019-HT","MA-1020-NJ",
+"MA-1021-DF","MA-1022-KW","MA-1023-AY","MA-1024-RP",
+"MA-1025-MZ","MA-1026-GL","MA-1027-TC","MA-1028-BX",
+"MA-1029-WQ","MA-1030-HE","MA-1031-JN","MA-1032-UV",
+"MA-1033-FK","MA-1034-DS","MA-1035-PL","MA-1036-YR",
+"MA-1037-CM","MA-1038-ZA","MA-1039-GV","MA-1040-NT",
+"MA-1041-XD","MA-1042-KB","MA-1043-QH","MA-1044-WL",
+"MA-1045-EP","MA-1046-MJ","MA-1047-VC","MA-1048-RT",
+"MA-1049-YS","MA-1050-FA","MA-1051-NK","MA-1052-BQ",
+"MA-1053-UD","MA-1054-XL","MA-1055-CH","MA-1056-GP",
+"MA-1057-TW","MA-1058-NE","MA-1059-JZ","MA-1060-KM",
+"MA-1061-AR","MA-1062-VF","MA-1063-DX","MA-1064-QB",
+"MA-1065-LH","MA-1066-WN","MA-1067-YS","MA-1068-CE",
+"MA-1069-PK","MA-1070-MV","MA-1071-JR","MA-1072-UG",
+"MA-1073-XT","MA-1074-BF","MA-1075-DA","MA-1076-NQ",
+"MA-1077-HE","MA-1078-CK","MA-1079-WP","MA-1080-ZM",
+"MA-1081-GL","MA-1082-TR","MA-1083-YN","MA-1084-VD",
+"MA-1085-FX","MA-1086-QA","MA-1087-MB","MA-1088-JK",
+"MA-1089-UL","MA-1090-CE","MA-1091-PR","MA-1092-XN",
+"MA-1093-DF","MA-1094-WG","MA-1095-KY","MA-1096-HT",
+"MA-1097-VA","MA-1098-BL","MA-1099-QS","MA-1100-MX"
+];
+
+function login(){
+ const value=document.getElementById("accessKey").value.trim().toUpperCase();
+ const msg=document.getElementById("loginMessage");
+ if(keys.includes(value)){
+  msg.style.color="#00eaff";
+  msg.textContent="✓ ACCESS GRANTED! WELCOME.";
+ }else{
+  msg.style.color="#ff6688";
+  msg.textContent="✕ INVALID ACCESS KEY.";
+ }
+}
+document.getElementById("accessKey").addEventListener("keydown",e=>{
+ if(e.key==="Enter")login();
+});
+</script>
+</body>
+</html>
